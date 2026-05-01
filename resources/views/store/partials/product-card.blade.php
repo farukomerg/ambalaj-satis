@@ -1,4 +1,4 @@
-<article class="card product-card">
+<article class="product-card">
     <a class="product-media" href="{{ route('products.show', $product) }}">
         <img class="product-img" src="{{ $product->imageUrl() }}" alt="{{ $product->name }}">
         <span class="product-badge pill">{{ $product->category->name }}</span>
@@ -24,7 +24,17 @@
 
         <div class="product-footer">
             <p class="price">{{ number_format($product->price, 2, ',', '.') }} TL</p>
-            <a class="btn ghost small" href="{{ route('products.show', $product) }}">Detay</a>
+            <a class="btn secondary small" href="{{ route('products.show', $product) }}">Incele</a>
         </div>
+
+        @auth
+            <form action="{{ route('cart.store', $product) }}" method="post">
+                @csrf
+                <input type="hidden" name="quantity" value="{{ $product->min_order_quantity }}">
+                <button class="btn block" type="submit">Sepete ekle</button>
+            </form>
+        @else
+            <a class="btn light block" href="{{ route('login') }}">Sepete eklemek icin giris yap</a>
+        @endauth
     </div>
 </article>

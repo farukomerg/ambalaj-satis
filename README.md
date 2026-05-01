@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ambalaj Satis Web Sitesi
 
 Laravel MVC ile gelistirilen, admin paneli ve kullanici alisveris akisina sahip ambalaj urunleri satis uygulamasi.
@@ -71,3 +72,6 @@ user123
 - Siparis faturasi PDF olarak uretilebilir.
 - Gercek odeme entegrasyonu yerine raporda simule odeme oldugu aciklanabilir.
 - Rapor icin ER diyagrami ve akış diyagrami bu kod yapisindan cikarilabilir.
+=======
+# Ambalaj_web_sitesi
+>>>>>>> d76d8534efc65814903325825e0991891ea49cd7

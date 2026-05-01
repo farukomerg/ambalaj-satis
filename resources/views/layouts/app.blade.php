@@ -14,8 +14,8 @@
     <header class="site-header">
         <div class="announcement-bar">
             <div class="container announcement-content">
-                <span>Mutfak, ev, kutlama ve gonderim icin ambalaj urunleri tek yerde.</span>
-                <span class="announcement-note">B2C magazasi</span>
+                <span>Tum siparislerde dikkat ceken vitrin, hizli sepet ve guclu urun sunumu.</span>
+                <span class="announcement-note">Yeni vitrin</span>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
                     <span class="brand-mark">AS</span>
                     <span class="brand-copy">
                         <strong>{{ $appName }}</strong>
-                        <small>Gunluk Ambalaj Magazasi</small>
+                        <small>Ambalaj ve Sarf Marketi</small>
                     </span>
                 </a>
 
@@ -33,6 +33,7 @@
                     <a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Anasayfa</a>
                     <a class="{{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Urunler</a>
                     <a href="{{ route('home') }}#kategoriler">Kategoriler</a>
+                    <a href="{{ route('home') }}#one-cikanlar">One cikanlar</a>
                 </div>
 
                 <div class="nav-actions">
@@ -49,7 +50,7 @@
                         </form>
                     @else
                         <a class="btn ghost small" href="{{ route('login') }}">Giris</a>
-                        <a class="btn light small" href="{{ route('register') }}">Hesap olustur</a>
+                        <a class="btn secondary small" href="{{ route('register') }}">Uye ol</a>
                     @endauth
                 </div>
             </nav>
@@ -79,18 +80,18 @@
                     <span class="brand-mark">AS</span>
                     <span class="brand-copy">
                         <strong>{{ $appName }}</strong>
-                        <small>Gunluk Ambalaj Magazasi</small>
+                        <small>Ambalaj ve Sarf Marketi</small>
                     </span>
                 </div>
-                <p>Kolay gezilen kategori yapisi, hafif metin kullanimi ve telefonda da rahat calisan alisveris akisi.</p>
+                <p>Gorsel olarak daha guclu, urun vitrini daha ticari ve buton dili daha uyumlu bir magazaya donusturuldu.</p>
             </div>
 
             <div>
                 <h3>Magaza</h3>
                 <div class="footer-links">
-                    <a href="{{ route('products.index') }}">Urunler</a>
-                    <a href="{{ route('home') }}#kategoriler">Kategoriler</a>
-                    <a href="{{ route('cart.index') }}">Sepet</a>
+                    <a href="{{ route('products.index') }}">Tum urunler</a>
+                    <a href="{{ route('home') }}#kategoriler">Kategori vitrini</a>
+                    <a href="{{ route('home') }}#one-cikanlar">One cikanlar</a>
                 </div>
             </div>
 
@@ -98,6 +99,7 @@
                 <h3>Hesabim</h3>
                 <div class="footer-links">
                     @auth
+                        <a href="{{ route('cart.index') }}">Sepet</a>
                         <a href="{{ route('orders.index') }}">Siparislerim</a>
                         <a href="{{ route('profile.edit') }}">Profil</a>
                     @else

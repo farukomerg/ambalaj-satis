@@ -3,12 +3,12 @@
 @section('content')
     <section class="section">
         <div class="container">
-            <x-store.page-hero eyebrow="Urunler" title="Ihtiyaciniza uygun urunu hizla secin." subtitle="Filtreler solda, kartlar sade, mobilde akış daha rahat.">
+            <x-store.page-hero eyebrow="Urun katalogu" title="Guclu vitrin diliyle urunleri kesfedin." subtitle="Kategori, filtre ve urun kartlari daha ticari, daha gorsel ve daha duzenli hale getirildi.">
                 <x-slot:actions>
                     @if(request()->filled('search') || request()->filled('category'))
                         <a class="btn ghost" href="{{ route('products.index') }}">Temizle</a>
                     @endif
-                    <a class="btn secondary" href="{{ route('home') }}#kategoriler">Kategoriler</a>
+                    <a class="btn secondary" href="{{ route('home') }}#kategoriler">Kategori vitrini</a>
                 </x-slot:actions>
             </x-store.page-hero>
 
@@ -19,7 +19,7 @@
                         <form class="filter-form" method="get">
                             <div class="field">
                                 <label>Urun ara</label>
-                                <input name="search" value="{{ request('search') }}" placeholder="Ornek: koli, bardak, poset">
+                                <input name="search" value="{{ request('search') }}" placeholder="Ornek: kargo poseti, strec, kraft">
                             </div>
 
                             <div class="field">
@@ -32,7 +32,7 @@
                                 </select>
                             </div>
 
-                            <button type="submit">Uygula</button>
+                            <button type="submit" class="btn block">Filtreyi uygula</button>
                         </form>
 
                         <div class="quick-chips">
@@ -48,7 +48,7 @@
                         <div>
                             <strong>{{ number_format($products->total(), 0, ',', '.') }} urun</strong>
                             @if(request('search'))
-                                <span> "{{ request('search') }}" icin sonuclar</span>
+                                <span> "{{ request('search') }}" aramasi icin sonuclar</span>
                             @endif
                         </div>
 
