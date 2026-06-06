@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -13,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('admin.products.index', [
-            'products' => Product::with('category')->latest()->paginate(12),
+            'products' => Product::with(['category', 'primaryImage'])->latest()->paginate(12),
         ]);
     }
 
@@ -75,7 +76,7 @@ class ProductController extends Controller
             'image' => ['nullable', 'image', 'max:4096'],
         ]);
 
-        $data['slug'] = Str::slug($data['name']).'-'.Str::lower(Str::random(5));
+        $data['slug'] = $this->makeSlug($data['name'], $product);
         $data['is_active'] = $request->boolean('is_active');
         $data['is_featured'] = $request->boolean('is_featured');
 
@@ -88,7 +89,13 @@ class ProductController extends Controller
             return;
         }
 
-        $path = $request->file('image')->store('products', 'public');
+        $directory = public_path('uploads/products');
+        File::ensureDirectoryExists($directory);
+
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $filename = Str::slug($product->name).'-'.Str::lower(Str::random(8)).'.'.$extension;
+        $request->file('image')->move($directory, $filename);
+        $path = 'uploads/products/'.$filename;
 
         $product->images()->update(['is_primary' => false]);
         $product->images()->create([
@@ -96,5 +103,28 @@ class ProductController extends Controller
             'alt_text' => $product->name,
             'is_primary' => true,
         ]);
+    }
+
+    private function makeSlug(string $name, ?Product $product = null): string
+    {
+        if ($product && $product->name === $name) {
+            return $product->slug;
+        }
+
+        $baseSlug = Str::slug($name);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (
+            Product::query()
+                ->when($product, fn ($query) => $query->whereKeyNot($product->id))
+                ->where('slug', $slug)
+                ->exists()
+        ) {
+            $slug = $baseSlug.'-'.$counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

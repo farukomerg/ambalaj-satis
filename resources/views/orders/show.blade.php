@@ -3,15 +3,19 @@
 @section('content')
     <section class="section">
         <div class="container">
-            <x-store.page-hero eyebrow="Siparis detayi" :title="$order->order_number" :subtitle="$order->fulfillmentLabel()" compact>
+            <x-store.page-hero eyebrow="Siparis detayi" :title="$order->order_number" :subtitle="$order->customerStatusLabel()" compact>
                 <x-slot:actions>
-                    <span class="status-pill">{{ $order->statusLabel() }}</span>
+                    <span class="status-pill {{ $order->statusVariant() }}">{{ $order->customerStatusLabel() }}</span>
                 </x-slot:actions>
             </x-store.page-hero>
 
             <div class="grid two">
                 <div class="card">
                     <div class="card-body">
+                        <div class="notice-panel">
+                            <strong>{{ $order->secondaryStatusText() }}</strong>
+                        </div>
+
                         <div class="summary-list">
                             @foreach($order->items as $item)
                                 <div class="summary-line">
@@ -31,12 +35,6 @@
                                 <form method="post" action="{{ route('orders.cancel', $order) }}">
                                     @csrf
                                     <button class="btn danger" type="submit">Siparisi iptal et</button>
-                                </form>
-                            @endif
-                            @if($order->canBeMarkedDeliveredByUser())
-                                <form method="post" action="{{ route('orders.delivered', $order) }}">
-                                    @csrf
-                                    <button type="submit">Teslim aldim</button>
                                 </form>
                             @endif
                         </div>

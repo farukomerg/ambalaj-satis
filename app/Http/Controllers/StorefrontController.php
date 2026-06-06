@@ -63,7 +63,7 @@ class StorefrontController extends Controller
 
         return view('store.show', [
             'product' => $product->load(['category', 'images']),
-            'relatedProducts' => Product::with('primaryImage')
+            'relatedProducts' => Product::with(['category', 'primaryImage'])
                 ->where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->where('is_active', true)

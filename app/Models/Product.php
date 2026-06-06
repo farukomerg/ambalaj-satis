@@ -60,6 +60,22 @@ class Product extends Model
             return $path;
         }
 
+        if (str_starts_with($path, 'uploads/')) {
+            return asset($path);
+        }
+
+        $publicStoragePath = public_path('storage/'.$path);
+        if (is_file($publicStoragePath)) {
+            return asset('storage/'.$path);
+        }
+
+        $storagePath = storage_path('app/public/'.$path);
+        if (is_file($storagePath)) {
+            $mime = mime_content_type($storagePath) ?: 'image/jpeg';
+
+            return 'data:'.$mime.';base64,'.base64_encode((string) file_get_contents($storagePath));
+        }
+
         return Storage::url($path);
     }
 }

@@ -22,4 +22,13 @@ class UserController extends Controller
 
         return back()->with('success', 'Kullanici durumu guncellendi.');
     }
+
+    public function destroy(User $user)
+    {
+        abort_if($user->isAdmin(), 403);
+
+        $user->delete();
+
+        return back()->with('success', 'Kullanici basariyla silindi.');
+    }
 }

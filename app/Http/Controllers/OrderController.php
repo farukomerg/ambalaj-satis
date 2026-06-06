@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\WalletTransaction;
+use App\Services\OrderWorkflowService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -25,7 +24,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function cancel(Request $request, Order $order)
+    public function cancel(Request $request, Order $order, OrderWorkflowService $workflow)
     {
         abort_unless($order->user_id === $request->user()->id, 403);
 
@@ -33,36 +32,16 @@ class OrderController extends Controller
             return back()->with('error', 'Hazirlama basladiktan sonra siparis iptal edilemez.');
         }
 
-        DB::transaction(function () use ($order, $request): void {
-            foreach ($order->items as $item) {
-                $item->product?->increment('stock', $item->quantity);
-            }
-
-            $order->update([
-                'status' => 'cancelled',
-                'cancelled_at' => now(),
-            ]);
-
-            $request->user()->increment('wallet_balance', $order->total_amount);
-
-            WalletTransaction::create([
-                'user_id' => $request->user()->id,
-                'order_id' => $order->id,
-                'type' => 'credit',
-                'amount' => $order->total_amount,
-                'description' => 'Onaylanmamis siparis iptal iadesi.',
-            ]);
-
-            $order->histories()->create([
-                'status' => 'cancelled',
-                'note' => 'Siparis kullanici tarafindan iptal edildi.',
-            ]);
-        });
+        $workflow->cancel(
+            $order,
+            'Siparis kullanici tarafindan iptal edildi.',
+            'Siparis iptal iadesi kullanici bakiyesine eklendi.'
+        );
 
         return back()->with('success', 'Siparis iptal edildi ve tutar hesabiniza yansitildi.');
     }
 
-    public function markDelivered(Request $request, Order $order)
+    public function markDelivered(Request $request, Order $order, OrderWorkflowService $workflow)
     {
         abort_unless($order->user_id === $request->user()->id, 403);
 
@@ -70,11 +49,7 @@ class OrderController extends Controller
             return back()->with('error', 'Teslimat onayi su anda aktif degil.');
         }
 
-        $order->update(['delivered_at' => now()]);
-        $order->histories()->create([
-            'status' => 'customer_confirmed_delivery',
-            'note' => 'Kullanici urunleri teslim aldigini onayladi.',
-        ]);
+        $workflow->confirmDelivery($order);
 
         return back()->with('success', 'Teslimat onaylandi.');
     }

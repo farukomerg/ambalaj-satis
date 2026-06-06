@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\OrderWorkflowService;
 
 class OrderController extends Controller
 {
@@ -21,42 +22,47 @@ class OrderController extends Controller
         ]);
     }
 
-    public function approve(Order $order)
+    public function approve(Order $order, OrderWorkflowService $workflow)
     {
         if ($order->status !== 'pending_approval') {
             return back()->with('error', 'Bu siparis zaten isleme alinmis.');
         }
 
-        $order->update([
-            'status' => 'approved',
-            'fulfillment_status' => 'sourcing',
-            'approved_at' => now(),
-        ]);
-
-        $order->histories()->create([
-            'status' => 'sourcing',
-            'note' => 'Admin siparisi onayladi; urunler tedarik ediliyor.',
-        ]);
+        $workflow->approve($order);
 
         return back()->with('success', 'Siparis onaylandi.');
     }
 
-    public function advance(Order $order)
+    public function advance(Order $order, OrderWorkflowService $workflow)
     {
-        if ($order->status !== 'approved') {
+        if (! $order->canAdvanceByAdmin()) {
             return back()->with('error', 'Sadece onayli siparislerde surec ilerletilebilir.');
         }
 
-        $steps = array_keys(Order::FULFILLMENT_STEPS);
-        $currentIndex = array_search($order->fulfillment_status, $steps, true);
-        $next = $steps[min($currentIndex + 1, count($steps) - 1)];
+        $next = $workflow->advance($order);
 
-        $order->update(['fulfillment_status' => $next]);
-        $order->histories()->create([
-            'status' => $next,
-            'note' => Order::FULFILLMENT_STEPS[$next],
+        return back()->with('success', 'Siparis durumu "'.Order::FULFILLMENT_STEPS[$next].'" asamasina gecti.');
+    }
+
+    public function cancel(Order $order, OrderWorkflowService $workflow)
+    {
+        if (! $order->canBeCancelledByAdmin()) {
+            return back()->with('error', 'Bu siparis artik iptal edilemez.');
+        }
+
+        $workflow->cancel(
+            $order,
+            'Siparis admin tarafindan iptal edildi.',
+            'Admin tarafindan iptal edilen siparis tutari kullanici bakiyesine eklendi.'
+        );
+
+        return back()->with('success', 'Siparis iptal edildi ve tutar kullanici hesabina aktarildi.');
+    }
+
+    public function invoice(Order $order)
+    {
+        return view('admin.orders.invoice', [
+            'order' => $order->load(['user', 'items']),
         ]);
-
-        return back()->with('success', 'Siparis durumu ilerletildi.');
     }
 }

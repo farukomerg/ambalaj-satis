@@ -15,10 +15,15 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ number_format($user->wallet_balance, 2, ',', '.') }} TL</td>
                                 <td>{{ $user->is_active ? 'Aktif' : 'Pasif' }}</td>
-                                <td>
+                                <td style="display: flex; gap: 8px;">
                                     <form method="post" action="{{ route('admin.users.toggle', $user) }}">
                                         @csrf
                                         <button class="{{ $user->is_active ? 'btn danger' : 'btn' }}" type="submit">{{ $user->is_active ? 'Dondur' : 'Aktif et' }}</button>
+                                    </form>
+                                    <form method="post" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Kullaniciyi silmek istediginize emin misiniz?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn danger" type="submit">Sil</button>
                                     </form>
                                 </td>
                             </tr>

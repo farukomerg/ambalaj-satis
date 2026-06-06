@@ -11,6 +11,17 @@
                 @endif
                 <div class="card-body">
                     <h1>{{ $product->exists ? 'Urun duzenle' : 'Yeni urun' }}</h1>
+
+                    @if($product->exists && $product->primaryImage?->path)
+                        <div class="admin-preview-card">
+                            <img class="admin-preview-image" src="{{ $product->imageUrl() }}" alt="{{ $product->name }}">
+                            <div>
+                                <strong>Mevcut gorsel</strong>
+                                <p class="muted">Yeni bir dosya secerseniz bu gorselin yerine gecer.</p>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="field">
                         <label>Kategori</label>
                         <select name="category_id" required>

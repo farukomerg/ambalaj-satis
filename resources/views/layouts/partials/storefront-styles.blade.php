@@ -474,13 +474,21 @@
 
     .category-card,
     .order-card {
-        padding: 0;
         border-radius: var(--radius-lg);
         border: 1px solid rgba(22, 32, 42, 0.08);
         background: rgba(255, 255, 255, 0.94);
         display: grid;
+    }
+
+    .category-card {
+        padding: 0;
         overflow: hidden;
         gap: 0;
+    }
+
+    .order-card {
+        padding: 20px;
+        gap: 14px;
     }
 
     .category-card:hover,
@@ -542,6 +550,26 @@
         color: var(--brand);
     }
 
+    .status-pill.info {
+        background: rgba(14, 116, 144, 0.12);
+        color: #0f766e;
+    }
+
+    .status-pill.success {
+        background: rgba(22, 163, 74, 0.12);
+        color: #166534;
+    }
+
+    .status-pill.warning {
+        background: rgba(249, 115, 22, 0.12);
+        color: #c2410c;
+    }
+
+    .status-pill.danger {
+        background: rgba(194, 65, 56, 0.12);
+        color: #991b1b;
+    }
+
     .promo-pill {
         background: rgba(255, 255, 255, 0.16);
         color: white;
@@ -578,6 +606,15 @@
 
     .category-meta span:last-child,
     .order-total { font-weight: 800; color: var(--ink); }
+
+    .order-actions,
+    .toolbar,
+    .admin-action-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
 
     .card {
         border-radius: var(--radius-lg);
@@ -637,7 +674,8 @@
     .checkout-shell,
     .form-shell,
     .grid.two,
-    .admin-shell {
+    .admin-shell,
+    .admin-content-grid {
         display: grid;
         gap: 22px;
     }
@@ -649,6 +687,12 @@
     .form-shell,
     .grid.two { grid-template-columns: minmax(0, 1fr) minmax(260px, 320px); align-items: start; }
     .admin-shell { grid-template-columns: 220px minmax(0, 1fr); }
+    .admin-content-grid { grid-template-columns: minmax(0, 1.2fr) minmax(290px, 0.8fr); align-items: start; }
+
+    .order-side-stack {
+        display: grid;
+        gap: 18px;
+    }
 
     .filter-card,
     .summary-card {
@@ -794,6 +838,14 @@
         overflow: hidden;
     }
 
+    .table-shell {
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(22, 32, 42, 0.08);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow-md);
+    }
+
     th,
     td {
         padding: 15px 16px;
@@ -862,6 +914,35 @@
         display: block;
         margin-bottom: 6px;
         font-size: 34px;
+    }
+
+    .admin-thumb {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        object-fit: cover;
+        border: 1px solid rgba(22, 32, 42, 0.08);
+        background: #edf2f7;
+    }
+
+    .admin-preview-card {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 18px;
+        padding: 16px;
+        border-radius: var(--radius-md);
+        background: var(--surface-soft);
+        border: 1px solid rgba(22, 32, 42, 0.08);
+    }
+
+    .admin-preview-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 18px;
+        background: #edf2f7;
     }
 
     .empty-state { text-align: center; color: var(--muted); }
@@ -954,7 +1035,8 @@
         .point-grid,
         .hero-metrics,
         .promo-grid,
-        .showcase-grid {
+        .showcase-grid,
+        .admin-content-grid {
             grid-template-columns: 1fr;
         }
 
@@ -990,7 +1072,8 @@
         .card-body,
         .detail-media,
         .summary-card,
-        .promo-banner {
+        .promo-banner,
+        .order-card {
             padding: 20px;
         }
 
@@ -1016,5 +1099,9 @@
         }
 
         table { display: block; overflow-x: auto; }
+
+        .admin-preview-card {
+            grid-template-columns: 1fr;
+        }
     }
 </style>

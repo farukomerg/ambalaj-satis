@@ -50,7 +50,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::post('orders/{order}/approve', [AdminOrderController::class, 'approve'])->name('orders.approve');
+    Route::post('orders/{order}/cancel', [AdminOrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('orders/{order}/advance', [AdminOrderController::class, 'advance'])->name('orders.advance');
+    Route::get('orders/{order}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
     Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
     Route::post('users/{user}/toggle', [AdminUserController::class, 'toggle'])->name('users.toggle');
+    Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 });

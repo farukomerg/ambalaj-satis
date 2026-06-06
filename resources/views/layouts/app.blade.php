@@ -15,7 +15,7 @@
         <div class="announcement-bar">
             <div class="container announcement-content">
                 <span>Tum siparislerde dikkat ceken vitrin, hizli sepet ve guclu urun sunumu.</span>
-                <span class="announcement-note">Yeni vitrin</span>
+                <span class="announcement-note" id="currency-widget">Kurlar yükleniyor...</span>
             </div>
         </div>
 
@@ -110,5 +110,19 @@
             </div>
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://open.er-api.com/v6/latest/USD')
+                .then(response => response.json())
+                .then(data => {
+                    const tryRate = data.rates.TRY.toFixed(2);
+                    const eurRate = (data.rates.TRY / data.rates.EUR).toFixed(2);
+                    document.getElementById('currency-widget').innerHTML = `<strong>USD:</strong> ${tryRate} ₺ &nbsp;|&nbsp; <strong>EUR:</strong> ${eurRate} ₺`;
+                })
+                .catch(() => {
+                    document.getElementById('currency-widget').textContent = 'Kurlar alınamadı';
+                });
+        });
+    </script>
 </body>
 </html>
