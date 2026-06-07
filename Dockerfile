@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # Gerekli sistem paketleri ve PHP eklentilerini kur
 RUN apt-get update && apt-get install -y \
