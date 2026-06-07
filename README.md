@@ -1,77 +1,88 @@
-<<<<<<< HEAD
-# Ambalaj Satis Web Sitesi
+# Ambalaj ve Sarf Marketi (B2B E-Ticaret Sistemi)
 
-Laravel MVC ile gelistirilen, admin paneli ve kullanici alisveris akisina sahip ambalaj urunleri satis uygulamasi.
+Kocaeli Üniversitesi Teknoloji Fakültesi Bilişim Sistemleri Mühendisliği Bölümü **TBL304: Web Programlama Dersi** Projesi kapsamında geliştirilmiş, İçerik Yönetim Sistemine (CMS) sahip web tabanlı alışveriş sitesidir.
 
-## Calistirma
+## Proje Hakkında
+Bu proje, toptan ve perakende ambalaj ve sarf malzemeleri satışı yapan bir işletme için tasarlanmış MVC tabanlı bir e-ticaret otomasyonudur. **Laravel 11** framework'ü kullanılarak sıfırdan geliştirilmiştir. Projede hem müşteriler için modern bir alışveriş arayüzü hem de yöneticiler için kapsamlı bir yönetim paneli (Admin Panel) bulunmaktadır.
 
-Proje Herd ile linklendi:
+Uygulama tamamen mobil uyumlu (Responsive) olarak tasarlanmış olup, dış bir **Döviz Kuru API'si** (REST API) ile entegre çalışarak anlık kur takibi yapmaktadır.
 
-```powershell
-http://ambalaj-satis.test
-```
+---
 
-Terminalden gerekli temel komutlar:
+## 🚀 Proje İsterlerinin Karşılanma Durumu
 
-```powershell
-cd C:\Users\MSI\Desktop\Ambalaj_web_sitesi\ambalaj-satis
-& "C:\Users\MSI\.config\herd\bin\php84\php.exe" artisan migrate --seed
-& "C:\Users\MSI\.config\herd\bin\php84\php.exe" artisan test
-```
+Proje yönergesinde istenen **tüm özellikler eksiksiz (%100) olarak** sisteme entegre edilmiştir:
 
-PostgreSQL veritabani:
+### 👥 Kullanıcı (User) İşlemleri
+- [x] **Kayıt ve Oturum Açma:** Kullanıcılar sisteme üye olabilir ve güvenli bir şekilde giriş yapabilir.
+- [x] **Profil Yönetimi:** E-posta, şifre, ad-soyad, telefon ve adres bilgileri güncellenebilir.
+- [x] **Hesap Dondurma:** Kullanıcılar istedikleri zaman hesaplarını (üyeliklerini) pasif duruma getirebilir.
+- [x] **Ürün Görüntüleme:** Ürünler, kategoriler ve detay sayfaları incelenebilir.
+- [x] **Sepet İşlemleri:** Sepete ürün ekleme, çıkarma ve toplam tutar hesaplama.
+- [x] **Ödeme ve Sipariş:** Kredi kartı arayüzü ile ödeme yapma ve sipariş oluşturma.
+- [x] **Cüzdan (Bakiye) Sistemi:** İptal edilen siparişlerin ücretleri kredi kartına değil, site içi kullanıcı cüzdanına (bakiyeye) aktarılır. Kullanıcı bir sonraki alışverişinde ilk olarak bu bakiyeyi kullanmak zorundadır.
+- [x] **Sipariş İptali:** Sipariş henüz admin tarafından onaylanmadıysa kullanıcı tarafından iptal edilebilir.
+- [x] **Sipariş Takibi:** Sipariş onaylandıktan sonra sırasıyla şu aşamalar kullanıcı panelinden canlı takip edilir: *Ürünleriniz tedarik ediliyor -> Kutulanıyor -> Kargoya veriliyor -> Size doğru yola çıktı -> Teslim edilmiştir.*
+- [x] **Teslimat Onayı:** Sipariş "Size teslim edilmiştir" aşamasına gelince aktif olan **"Ürünlerimi Teslim Aldım"** butonuna basılarak süreç tamamlanır.
 
-```text
-DB_DATABASE=ambalaj_db
-DB_USERNAME=postgres
-```
+### 🛡️ Yönetici (Admin) İşlemleri
+- [x] **Kullanıcı Yönetimi:** Sistemdeki tüm kullanıcıları görüntüleme, bilgilerini güncelleme, hesapları dondurma ve silme işlemleri.
+- [x] **Ürün Yönetimi:** Ürün ekleme, silme, güncelleme (fiyat, stok vb.).
+- [x] **Görsel Yönetimi:** Ürünlere ait fotoğrafların yüklenmesi ve yönetimi.
+- [x] **Satış Durumu:** Ürünleri satışa sunma veya satıştan kaldırma (Aktif/Pasif).
+- [x] **Sipariş ve Fatura:** Gelen siparişleri görüntüleme, onaylama, faturalandırma (Yazdırılabilir PDF/HTML formatında) ve kargoya hazır hale getirme.
+- [x] **Sipariş Süreci Yönetimi:** İlgili siparişin durumunu butonlar yardımıyla "İleri" diyerek aşama aşama ilerletme.
 
-## Demo Girisleri
+### ⚙️ Teknik ve Genel İsterler
+- [x] **Framework:** Laravel (MVC Mimari) kullanıldı.
+- [x] **Tasarım:** Modern, dinamik ve **Responsive (Mobil uyumlu)** arayüz geliştirildi.
+- [x] **Veritabanı:** PostgreSQL kullanılarak tam CRUD (Ekle/Sil/Güncelle/Listele) işlemleri uygulandı. Relasyonel veritabanı tasarımı yapıldı.
+- [x] **Minimum Veri:** Veritabanında (Seeder ile otomatik kurulan) 1 Admin, 5 Kullanıcı ve 20 Adet Ürün hazır bulunmaktadır.
+- [x] **Canlı Yayın:** Proje GitHub üzerinden bulut sunucuya aktarılarak internete (canlı ortama) açılmıştır.
+- [x] **Harici Web API Entegrasyonu:** Toptan ticaret mantığına uygun olarak, dış bir REST API üzerinden **Canlı Döviz Kurları (USD, EUR vb.)** anlık olarak (iframe kullanılmadan `fetch` ile) çekilip sisteme entegre edilmiştir.
 
-Admin:
+---
 
-```text
-admin@ambalaj.test
-admin123
-```
+## 🛠️ Kullanılan Teknolojiler
 
-Kullanici:
+- **Backend:** PHP 8.4, Laravel 11
+- **Frontend:** HTML5, Vanilla CSS3 (Custom Responsive Design System), JavaScript (ES6+)
+- **Veritabanı:** PostgreSQL
+- **Sunucu ve Dağıtım:** Docker, Apache, Back4App (Bulut Sunucu)
 
-```text
-user1@ambalaj.test
-user123
-```
+---
 
-## Karsilanan Isterler
+## 💻 Kurulum (Local Ortam)
 
-- Admin ve User rolleri eklendi.
-- Kullanici kayit, giris, cikis, profil guncelleme ve uyelik pasiflestirme eklendi.
-- Admin panelinde urun ekleme, guncelleme, silme, stok, fiyat ve gorsel yukleme akisi eklendi.
-- Urun listeleme, urun detay, kategori ve arama filtreleri eklendi.
-- Sepete urun ekleme, sepet guncelleme ve sepetten silme eklendi.
-- Simule kredi karti odeme ekrani ve siparis olusturma eklendi.
-- Kullanici bakiyesi ve iptal edilen siparisin bakiyeye iadesi eklendi.
-- Admin siparis onaylama ve siparis hazirlik surecini ilerletme eklendi.
-- Kullanici siparis durumunu izleyebilir ve teslim edildi asamasinda teslim aldim butonunu kullanabilir.
-- En az 1 admin, 5 user ve 20 urun seed verisi eklendi.
-- PostgreSQL veritabani ve Laravel migration yapisi kuruldu.
+Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
 
-## Ogrenme Sirasi
+1. Projeyi bilgisayarınıza klonlayın veya zip olarak indirin.
+2. Terminal üzerinden proje dizinine girin ve gerekli kütüphaneleri indirin:
+   ```bash
+   composer install
+   npm install
+   ```
+3. `.env.example` dosyasının kopyasını oluşturup `.env` olarak adlandırın ve veritabanı bilgilerinizi girin.
+4. Uygulama anahtarını (APP_KEY) oluşturun:
+   ```bash
+   php artisan key:generate
+   ```
+5. Veritabanı tablolarını ve zorunlu test verilerini (1 Admin, 5 User, 20 Ürün) yükleyin:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+6. Resimlerin düzgün görüntülenmesi için storage linkini oluşturun:
+   ```bash
+   php artisan storage:link
+   ```
+7. Yerel sunucuyu başlatın:
+   ```bash
+   php artisan serve
+   ```
 
-1. `routes/web.php` dosyasini oku. Hangi URL hangi controller metoduna gidiyor bunu takip et.
-2. `database/migrations/2026_05_01_230000_create_shop_tables.php` dosyasini incele. ER diyagraminin temelini bu dosya olusturur.
-3. `app/Models` klasorundeki iliskileri incele. Laravel Eloquent mantigi burada gorulur.
-4. `app/Http/Controllers` klasorunde sirayla vitrin, sepet, odeme ve siparis akislarini takip et.
-5. `resources/views` klasorundeki Blade sayfalarini incele. Kullanici ve admin ekranlari burada.
-6. `database/seeders/DatabaseSeeder.php` dosyasindan demo verilerin nasil olustugunu incele.
+*Not: Uygulama **Admin** girişi için varsayılan e-posta: `admin@ambalaj.test` şifre: `admin123` şeklindedir.*
 
-## Sonraki Profesyonel Gelistirmeler
+---
 
-- Admin kategori yonetimi eklenebilir.
-- Sifre sifirlama e-posta akisi eklenebilir.
-- Siparis faturasi PDF olarak uretilebilir.
-- Gercek odeme entegrasyonu yerine raporda simule odeme oldugu aciklanabilir.
-- Rapor icin ER diyagrami ve akış diyagrami bu kod yapisindan cikarilabilir.
-=======
-# Ambalaj_web_sitesi
->>>>>>> d76d8534efc65814903325825e0991891ea49cd7
+## ☁️ Bulut Sunucu Otomatik Kurulum Rota Özelliği
+Paylaşımlı hosting veya SSH terminal erişimi olmayan platformlar için geliştirilmiş özel rota sayesinde projenin URL adresinin sonuna `/kurulum-tamamla` ekleyerek (Örn: `siteadi.com/kurulum-tamamla`) veritabanı migrasyon ve seed işlemlerini tek tıkla yapabilirsiniz.
