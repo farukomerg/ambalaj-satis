@@ -57,6 +57,79 @@ Sistem, veri bütünlüğünü (data integrity) en üst düzeyde tutmak amacıyl
 
 ---
 
+## 📊 Proje Akış ve ER Diyagramları
+
+### Veritabanı Varlık-İlişki (ER) Diyagramı
+```mermaid
+erDiagram
+    USERS ||--o{ ORDERS : "places"
+    USERS ||--o{ CARTS : "owns"
+    CATEGORIES ||--o{ PRODUCTS : "contains"
+    PRODUCTS ||--o{ PRODUCT_IMAGES : "has"
+    PRODUCTS ||--o{ CART_ITEMS : "added to"
+    PRODUCTS ||--o{ ORDER_ITEMS : "ordered in"
+    ORDERS ||--|{ ORDER_ITEMS : "includes"
+    CARTS ||--o{ CART_ITEMS : "contains"
+
+    USERS {
+        int id PK
+        string name
+        string email
+        string role
+        decimal wallet_balance
+    }
+    PRODUCTS {
+        int id PK
+        int category_id FK
+        string name
+        decimal price
+        int stock
+        boolean is_active
+    }
+    ORDERS {
+        int id PK
+        int user_id FK
+        decimal total_amount
+        string status
+        text shipping_address
+    }
+    ORDER_ITEMS {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal price
+    }
+    CATEGORIES {
+        int id PK
+        string name
+    }
+```
+
+### Temel Sipariş Akış Diyagramı (Flowchart)
+```mermaid
+graph TD
+    A[Müşteri Siteye Girer] --> B{Üye mi?}
+    B -- Hayır --> C[Kayıt Ol / Giriş Yap]
+    C --> D[Ürünleri İncele]
+    B -- Evet --> D
+    D --> E[Sepete Ürün Ekle]
+    E --> F[Ödeme Sayfasına Geç (Checkout)]
+    F --> G{Cüzdanda Bakiye Var mı?}
+    G -- Evet --> H[Bakiyeden Düş]
+    H --> I{Kalan Tutar > 0 mı?}
+    G -- Hayır --> J[Kredi Kartı İle Tamamını Öde]
+    I -- Evet --> J
+    I -- Hayır --> K[Sipariş Oluşturuldu (Durum: Bekliyor)]
+    J --> K
+    K --> L[Yönetici Siparişi Onaylar]
+    L --> M[Sipariş Aşamaları: Hazırlanıyor -> Kargoya Verildi]
+    M --> N[Müşteri 'Teslim Aldım' Butonuna Basar]
+    N --> O((Süreç Tamamlandı))
+```
+
+---
+
 ## 📝 Çekirdek Algoritmalar (Sözde Kod / Pseudocode)
 
 ### 1. Sipariş İptali ve Cüzdan İadesi Mekanizması
@@ -138,6 +211,8 @@ SON ALGORİTMA
 ---
 
 ## ⚡ Canlı Gösterim ve Kurulum
+
+**Canlı Demo:** [Proje Canlı Yayın Linki](https://ambalajsatis1-1dvvfkhj.b4a.run/)
 
 **GitHub Deposu:** [Sitenin Kaynak Kodları](https://github.com/farukomerg/ambalaj-satis)
 
