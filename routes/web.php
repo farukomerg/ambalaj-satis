@@ -16,6 +16,15 @@ Route::get('/', [StorefrontController::class, 'home'])->name('home');
 Route::get('/urunler', [StorefrontController::class, 'products'])->name('products.index');
 Route::get('/urunler/{product:slug}', [StorefrontController::class, 'show'])->name('products.show');
 
+// Paylasimli hosting icin SSH olmadan veritabani kurma rotasi
+Route::get('/kurulum-tamamla', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+        '--force' => true,
+        '--seed' => true
+    ]);
+    return "Veritabani tablolari ve test verileri basariyla kuruldu!";
+});
+
 Route::middleware('guest')->group(function (): void {
     Route::get('/giris', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/giris', [AuthController::class, 'login'])->name('login.store');

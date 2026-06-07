@@ -21,15 +21,21 @@
 
         <div class="topbar">
             <nav class="container nav">
-                <a class="brand" href="{{ route('home') }}">
-                    <span class="brand-mark">AS</span>
-                    <span class="brand-copy">
-                        <strong>{{ $appName }}</strong>
-                        <small>Ambalaj ve Sarf Marketi</small>
-                    </span>
-                </a>
+                <div class="nav-header">
+                    <a class="brand" href="{{ route('home') }}">
+                        <span class="brand-mark">AS</span>
+                        <span class="brand-copy">
+                            <strong>{{ $appName }}</strong>
+                            <small>Ambalaj ve Sarf Marketi</small>
+                        </span>
+                    </a>
+                    <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                </div>
 
-                <div class="nav-links">
+                <div class="nav-menu" id="nav-menu">
+                    <div class="nav-links">
                     <a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Anasayfa</a>
                     <a class="{{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Urunler</a>
                     <a href="{{ route('home') }}#kategoriler">Kategoriler</a>
@@ -52,6 +58,8 @@
                         <a class="btn ghost small" href="{{ route('login') }}">Giris</a>
                         <a class="btn secondary small" href="{{ route('register') }}">Uye ol</a>
                     @endauth
+                </div>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -110,8 +118,18 @@
             </div>
         </div>
     </footer>
+    @stack('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if(toggleBtn && navMenu) {
+                toggleBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('is-open');
+                });
+            }
+
             fetch('https://open.er-api.com/v6/latest/USD')
                 .then(response => response.json())
                 .then(data => {

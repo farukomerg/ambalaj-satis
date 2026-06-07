@@ -90,8 +90,38 @@
         min-height: 80px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: auto;
+    }
+
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        flex: 1;
         gap: 20px;
-        flex-wrap: wrap;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--ink);
+        padding: 8px;
+        cursor: pointer;
+        box-shadow: none;
+        min-height: auto;
+    }
+
+    .mobile-menu-toggle:hover {
+        transform: none;
+        background: var(--surface-soft);
+        border-radius: 8px;
     }
 
     .brand {
@@ -144,7 +174,9 @@
         flex-wrap: wrap;
     }
 
-    .nav-links { margin-left: auto; }
+    .nav-links { 
+        margin-left: auto; 
+    }
 
     .nav-links a {
         padding: 10px 14px;
@@ -1020,7 +1052,35 @@
     }
 
     @media (max-width: 960px) {
-        .nav,
+        .nav-menu {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .nav-menu.is-open {
+            display: flex;
+        }
+
+        .nav-header {
+            width: 100%;
+            min-height: 80px;
+        }
+
+        .mobile-menu-toggle {
+            display: inline-flex;
+        }
+
+        .nav {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: auto;
+            gap: 0;
+        }
+
         .hero-shell,
         .listing-shell,
         .detail-shell,
@@ -1045,7 +1105,22 @@
             align-items: flex-start;
         }
 
-        .nav-links { margin-left: 0; }
+        .nav-links { 
+            margin-left: 0; 
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .nav-actions {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .nav-actions .btn {
+            width: 100%;
+        }
+
         .filter-card,
         .summary-card { position: static; }
     }
@@ -1054,16 +1129,12 @@
         .container { width: min(100% - 24px, 100% - 24px); }
 
         .announcement-content,
-        .nav-actions,
-        .nav-links,
         .hero-actions,
         .page-hero-actions {
             align-items: stretch;
         }
 
-        .announcement-content,
-        .nav-links,
-        .nav-actions {
+        .announcement-content {
             flex-direction: column;
         }
 
